@@ -1,14 +1,12 @@
 package com.facebook.okhttp_pract_get;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.json.JSONObject;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 
@@ -48,7 +46,9 @@ Button buttonget,buttonpost;
     }
 
     private void postfunction() {
-        client=new OkHttpClient();
+        client=new OkHttpClient.Builder()
+                .addInterceptor(new ErrorInterceptor())
+                .build();
         RequestBody requestBody=new FormBody.Builder()
                 .add("Name","uzair")
                 .build();
