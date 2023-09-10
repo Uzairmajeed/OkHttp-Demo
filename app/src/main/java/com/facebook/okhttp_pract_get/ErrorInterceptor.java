@@ -14,24 +14,22 @@ public class ErrorInterceptor implements Interceptor {
         Request request = chain.request();
         Response response = chain.proceed(request);
 
-        // Get the request body's content type
-        String contentType = request.body().contentType().toString();
+        String contentType = "Unknown";
 
-        // Check if the request body's content type is a form-urlencoded type
+        if (request.body() != null) {
+            contentType = request.body().contentType().toString();
+        }
+
         boolean isFormUrlEncoded = contentType.contains("application/x-www-form-urlencoded");
 
         if (isFormUrlEncoded) {
-            // The request data is in key-value pair format
             if (response.isSuccessful()) {
                 Log.d("ErrorInterceptor", "You are posting correct data.");
-
             } else {
                 Log.d("ErrorInterceptor", "There was an error in your post request. Response code: " + response.code());
-
             }
         } else {
             Log.d("ErrorInterceptor", "You are posting in the wrong format.");
-
         }
 
         return response;
